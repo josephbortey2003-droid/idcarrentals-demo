@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>ID Car Rentals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout (from the Your Next Store template): store nav with search + "booking" cart, left headline with one coloured phrase,
+   mono eyebrow, horizontal fleet rail of light tiles, rounded editorial banner, booking drawer = the cart.
+   Single theme in ID Car Rentals' own colours: navy + royal blue from their card, on white. */
+:root{
+  --bg:#FAFBFD;
+  --tile:#EEF1F6;
+  --ink:#111834;     /* navy from the logo */
+  --soft:#5A6278;
+  --blue:#1C4EBA;    /* "RENTALS" blue */
+  --blue-ink:#163E95;
+  --line:#E1E5EE;
+  --ok:#1C7C4A;
+  --head:"Manrope", "Segoe UI", system-ui, sans-serif;
+  --logo:"Montserrat", "Arial Black", sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--head);margin:0}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{margin:0;line-height:1.08;text-wrap:balance;letter-spacing:-.02em}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:8px}
+.eyebrow{font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:13px 22px;font:700 15px var(--head);cursor:pointer;text-decoration:none}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-text{background:none;color:var(--ink);padding-inline:6px}
+
+/* logo (redrawn from their printed card) */
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.logo svg{height:34px;width:auto}
+.logo .wm{font:900 15px/1 var(--logo);letter-spacing:.02em}
+.logo .wm span{color:var(--blue)}
+.logo .wm small{display:block;font:700 7.5px var(--logo);letter-spacing:.24em;color:var(--soft);margin-top:4px}
+
+/* nav */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(250,251,253,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:28px;padding-block:12px}
+.nav nav{display:flex;gap:24px;margin-inline:auto;font-weight:600;font-size:15px;color:var(--soft)}
+.nav nav button{background:none;border:0;font:inherit;color:inherit;cursor:pointer;padding:4px 0}
+.nav nav button:hover,.nav nav button[aria-pressed="true"]{color:var(--ink)}
+.search{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;min-width:0}
+.search input{border:0;outline:0;font:500 15px var(--head);width:150px;background:transparent;color:var(--ink)}
+.cartbtn{position:relative;background:none;border:0;cursor:pointer;padding:6px;color:var(--ink)}
+.cartbtn b{position:absolute;top:-2px;right:-4px;background:var(--blue);color:#fff;font:700 11px var(--head);min-width:18px;height:18px;border-radius:9px;display:grid;place-items:center;padding:0 4px}
+@media (max-width:900px){.nav nav,.search{display:none}.nav{justify-content:space-between}}
+
+/* hero */
+.hero{padding-block:64px 40px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-10%;top:-30%;width:60%;height:140%;background:radial-gradient(closest-side,rgba(28,78,186,.16),transparent);pointer-events:none}
+.hero h1{font-size:clamp(40px,6.4vw,76px);font-weight:800;max-width:14ch}
+.hero h1 em{font-style:normal;color:var(--blue)}
+.hero p{color:var(--soft);font-size:19px;margin-top:16px;max-width:42ch}
+.hero .ctas{display:flex;gap:10px;align-items:center;margin-top:28px;flex-wrap:wrap}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.chips span{font:500 13px var(--mono);border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px}
+
+/* rail */
+.rowhead{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:22px}
+.rowhead h2{font-size:clamp(28px,3.6vw,40px);font-weight:700;margin-top:8px}
+.rail{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(260px,1fr);gap:18px;overflow-x:auto;padding-bottom:18px;scroll-snap-type:x mandatory}
+.rail::-webkit-scrollbar{height:4px}.rail::-webkit-scrollbar-thumb{background:var(--ink);border-radius:4px}
+.car{scroll-snap-align:start;display:flex;flex-direction:column;gap:10px;min-width:0}
+.car .ph{position:relative;background:var(--tile);border-radius:18px;overflow:hidden;aspect-ratio:4/5}
+.car .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 60%;transition:transform .4s}
+.car:hover .ph img{transform:scale(1.03)}
+.car .badge{position:absolute;top:12px;left:12px;font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;background:#fff;border-radius:999px;padding:5px 10px}
+.car h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
+.car .meta{font-size:14px;color:var(--soft)}
+.car .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.car .rate{font-weight:700;font-size:15px}
+.car .add{border:1.5px solid var(--ink);background:#fff;color:var(--ink);border-radius:999px;padding:8px 14px;font:700 13px var(--head);cursor:pointer;white-space:nowrap}
+.car .add[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+.empty{color:var(--soft);padding:20px 0}
+@media (prefers-reduced-motion:reduce){.car .ph img{transition:none}}
+
+/* banner */
+.banner{position:relative;border-radius:28px;overflow:hidden;margin-block:72px;min-height:440px;display:flex;align-items:flex-end;background:var(--ink)}
+.banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 60%}
+.banner::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(17,24,52,.88) 0%,rgba(17,24,52,.55) 45%,rgba(17,24,52,0) 75%);z-index:1}
+.banner .in{position:relative;z-index:2;padding:44px;color:#fff;max-width:520px}
+.banner .eyebrow{color:#b9c7ec}
+.banner h2{font-size:clamp(30px,4vw,46px);font-weight:800;margin-top:10px}
+.banner p{color:#dbe2f5;margin-top:12px}
+.banner .btn{margin-top:22px;background:#fff;color:var(--ink)}
+@media (max-width:700px){.banner{min-height:520px}.banner::before{background:linear-gradient(0deg,rgba(17,24,52,.92) 0%,rgba(17,24,52,.5) 55%,rgba(17,24,52,0) 85%)}.banner .in{padding:26px}.banner img{object-position:50% 30%}}
+
+/* how + reviews */
+.how{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.how div{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px}
+.how b{font:500 12px var(--mono);color:var(--blue);letter-spacing:.1em}
+.how h3{font-size:20px;margin-top:10px}
+.how p{color:var(--soft);margin-top:6px;font-size:15px}
+.revs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin-top:8px}
+.revs blockquote{margin:0}
+.revs q{font-size:19px;font-weight:600;line-height:1.4;quotes:"“" "”"}
+.revs cite{display:block;font-style:normal;color:var(--soft);font-size:14px;margin-top:10px}
+.stars{color:#E8A317;letter-spacing:2px;font-size:14px}
+@media (max-width:800px){.how,.revs{grid-template-columns:1fr}}
+section{padding-block:40px}
+
+/* contact */
+.contact{background:var(--ink);color:#fff;border-radius:28px;padding:44px;display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center;margin-block:56px 40px}
+.contact h2{font-size:clamp(28px,3.6vw,40px);font-weight:800}
+.contact dl{display:grid;grid-template-columns:auto 1fr;gap:8px 20px;margin:0;font-size:15px}
+.contact dt{font:500 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#9fb0dc;padding-top:2px}
+.contact dd{margin:0}
+.contact .ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.contact .btn-text{color:#fff}
+@media (max-width:800px){.contact{grid-template-columns:1fr;padding:28px}}
+footer{padding-block:20px 100px;color:var(--soft);font-size:14px}
+
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(17,24,52,.45);z-index:40}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:#fff;z-index:50;display:flex;flex-direction:column;
+  padding:calc(20px + env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) 22px;box-shadow:-20px 0 60px rgba(17,24,52,.25)}
+.drawer header{position:static;background:none;border:0;backdrop-filter:none;display:flex;justify-content:space-between;align-items:center}
+.drawer h2{font-size:24px;font-weight:800}
+.x{background:var(--tile);border:0;border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer;color:var(--ink)}
+.picked{list-style:none;padding:0;margin:16px 0 0;display:grid;gap:10px}
+.picked li{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center}
+.picked img{width:56px;height:56px;object-fit:cover;border-radius:10px;background:var(--tile)}
+.picked button{background:none;border:0;color:var(--soft);cursor:pointer;font:600 13px var(--head);text-decoration:underline}
+.f{margin-top:14px}
+.f label,.f .lab{display:block;font-weight:700;font-size:13px;margin-bottom:6px}
+.f input,.f select{width:100%;font:500 16px var(--head);border:1px solid var(--line);border-radius:12px;padding:11px 12px;color:var(--ink);background:var(--bg)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg{display:flex;gap:8px}
+.seg button{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:10px;font:700 14px var(--head);cursor:pointer;color:var(--ink)}
+.seg button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:#fff}
+.sum{margin-top:16px;background:var(--tile);border-radius:12px;padding:12px 14px;font-size:14px}
+.drawer .go{margin-top:auto;padding-top:16px}
+.drawer .go .btn{width:100%}
+.drawer .note{font-size:12px;color:var(--soft);text-align:center;margin-top:8px}
+.drawer-body{overflow-y:auto;overflow-x:hidden;min-height:0}
+.two>div,.f input{min-width:0}
+</style>
+<style>body{margin:0}</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="ID Car Rentals, home">
+      <svg viewBox="0 0 120 64" aria-hidden="true"><text x="0" y="56" font-family="Montserrat, Arial Black, sans-serif" font-weight="900" font-size="66" fill="#111834" letter-spacing="-2">ID</text><path d="M4 40 C 30 22, 70 18, 116 36 C 86 28, 52 28, 20 40 Z" fill="#1C4EBA"/><path d="M40 40 C 60 33, 90 34, 116 44" stroke="#1C4EBA" stroke-width="3" fill="none"/></svg>
+      <span class="wm">CAR <span>RENTALS</span><small>DRIVE YOUR NEXT JOURNEY</small></span>
+    </a>
+    <nav aria-label="Fleet filter" id="topfilter">
+      <button type="button" data-f="all" aria-pressed="true">All cars</button>
+      <button type="button" data-f="suv" aria-pressed="false">SUVs</button>
+      <button type="button" data-f="luxury" aria-pressed="false">Luxury</button>
+      <button type="button" data-f="saloon" aria-pressed="false">Saloons</button>
+    </nav>
+    <label class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search cars" aria-label="Search cars"></label>
+    <button class="cartbtn" type="button" id="openCart" aria-label="Open your booking"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 16h14l-1.6-5.2A2 2 0 0 0 15.5 9.4h-7a2 2 0 0 0-1.9 1.4Z"/><circle cx="8" cy="17.5" r="1.6"/><circle cx="16" cy="17.5" r="1.6"/></svg><b id="count" hidden>0</b></button>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div class="eyebrow">ID Car Rentals · Airport Residential, Accra</div>
+    <h1 style="margin-top:14px">Drive your <em>next journey</em></h1>
+    <p>Reliable cars. Smooth rides. Every time. SUVs and luxury cars for airport pickups, business trips and weddings, booked in minutes on WhatsApp.</p>
+    <div class="ctas"><a class="btn btn-ink" href="#fleet">See the fleet</a><a class="btn btn-text" href="https://wa.me/233243220727" target="_blank" rel="noopener">Chat on WhatsApp →</a></div>
+    <div class="chips"><span>★ 5.0 · 59 Google reviews</span><span>Self-drive or with driver</span><span>Minutes from Kotoka Airport</span></div>
+  </div>
+
+  <section id="fleet" style="padding-top:10px">
+    <div class="wrap">
+      <div class="rowhead">
+        <div><div class="eyebrow">The fleet</div><h2>Pick your ride</h2></div>
+        <span class="eyebrow" id="shown"></span>
+      </div>
+      <div class="rail" id="rail"></div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="banner">
+      <img src="img/escalade.webp" alt="Cream leather captain's seats inside a Cadillac Escalade from the ID fleet">
+      <div class="in">
+        <div class="eyebrow">Airport pickups · Weddings · VIP</div>
+        <h2>Arrive like you mean it.</h2>
+        <p>Land at Kotoka and step straight into a clean, air-conditioned SUV, with a driver who knows Accra.</p>
+        <button class="btn" type="button" id="bannerBook">Book an airport pickup</button>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <div class="eyebrow">How it works</div>
+      <h2 style="font-size:clamp(28px,3.6vw,40px);font-weight:700;margin:8px 0 22px">Booked in three messages.</h2>
+      <div class="how">
+        <div><b>STEP 1</b><h3>Pick a car</h3><p>Tap “Book” on any car above. Add more than one for a group or convoy.</p></div>
+        <div><b>STEP 2</b><h3>Send your dates</h3><p>Choose pickup and return dates, where to meet you, and self-drive or with a driver.</p></div>
+        <div><b>STEP 3</b><h3>We confirm on WhatsApp</h3><p>You get today's rate and confirmation straight from the ID team.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="eyebrow">From our Google reviews</div>
+      <div class="revs" style="margin-top:20px">
+        <blockquote><span class="stars">★★★★★</span><q>Best customer service, comfortable cars with no problems. I highly recommend.</q><cite>Seyram B.</cite></blockquote>
+        <blockquote><span class="stars">★★★★★</span><q>Their cars are good and safe. I would recommend everyone should come and try their cars.</q><cite>Charlotte E.</cite></blockquote>
+        <blockquote><span class="stars">★★★★★</span><q>I loved the service and I will definitely recommend.</q><cite>Christabel A.</cite></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="contact">
+      <div>
+        <div class="eyebrow" style="color:#9fb0dc">Talk to us</div>
+        <h2 style="margin-top:10px">Need a car today?</h2>
+        <div class="ctas"><a class="btn btn-blue" href="https://wa.me/233243220727" target="_blank" rel="noopener">WhatsApp 024 322 0727</a><a class="btn btn-text" href="https://www.google.com/maps/search/?api=1&amp;query=ID+Car+Rentals+Accra" target="_blank" rel="noopener">Find us on Maps →</a></div>
+      </div>
+      <dl>
+        <dt>Call</dt><dd>024 322 0727</dd>
+        <dt>Where</dt><dd>Airport Residential area, off Mankata Ave, Accra</dd>
+        <dt>Hours</dt><dd>Open until 11pm</dd>
+        <dt>Social</dt><dd>TikTok: ID Car Rentals · Snapchat: idgh00</dd>
+      </dl>
+    </div>
+  </div>
+</main>
+<footer><div class="wrap">© 2026 ID Car Rentals · Reliable Cars. Smooth Rides. Every Time.</div></footer>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" hidden aria-label="Your booking" role="dialog" aria-modal="true">
+  <header><h2>Your booking</h2><button class="x" type="button" id="closeCart" aria-label="Close">✕</button></header>
+  <div class="drawer-body">
+    <ul class="picked" id="picked"></ul>
+    <p class="empty" id="none">No car yet. Tap “Book” on a car, or just send your dates and we'll suggest one.</p>
+    <div class="two">
+      <div class="f"><label for="from">Pickup date</label><input id="from" type="date"></div>
+      <div class="f"><label for="to">Return date</label><input id="to" type="date"></div>
+    </div>
+    <div class="f"><label for="where">Where should we meet you?</label>
+      <select id="where"><option>Kotoka Airport (arrivals)</option><option>My hotel</option><option>My home or office</option><option>ID Car Rentals office</option></select></div>
+    <div class="f"><span class="lab" id="dl">Driver</span>
+      <div class="seg" role="group" aria-labelledby="dl" id="driver"><button type="button" aria-pressed="true">With driver</button><button type="button" aria-pressed="false">Self-drive</button></div></div>
+    <div class="f"><label for="nm">Your name</label><input id="nm" autocomplete="name" placeholder="e.g. Kofi Boateng"></div>
+    <div class="sum" id="sum"></div>
+  </div>
+  <div class="go"><a class="btn btn-blue" id="send" href="https://wa.me/233243220727" target="_blank" rel="noopener">Send booking on WhatsApp</a><p class="note">You'll get today's rate and confirmation on WhatsApp.</p></div>
+</aside>
+
+<script>
+(function(){
+const CARS=[
+ {id:'yukon',name:'GMC Yukon Denali',img:'yukon.webp',tags:['suv','luxury'],badge:'Luxury SUV',meta:'7 seats · automatic · black'},
+ {id:'landcruiser',name:'Toyota Land Cruiser 300',img:'landcruiser.webp',tags:['suv','luxury'],badge:'Full-size SUV',meta:'7 seats · automatic · black'},
+ {id:'escalade',name:'Cadillac Escalade',img:'escalade.webp',tags:['suv','luxury'],badge:'VIP',meta:'Captain’s seats · rear screens'},
+ {id:'mercedes',name:'Mercedes-Benz Saloon',img:'mercedes.webp',tags:['saloon','luxury'],badge:'Executive',meta:'5 seats · automatic · navy'},
+ {id:'rav4',name:'Toyota RAV4',img:'rav4.webp',tags:['suv'],badge:'Everyday SUV',meta:'5 seats · automatic · grey'}
+];
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const picked=new Set(); let filter='all';
+function rail(){
+  const q=$('#q').value.trim().toLowerCase();
+  const list=CARS.filter(c=>(filter==='all'||c.tags.includes(filter))&&(!q||(c.name+' '+c.meta+' '+c.badge).toLowerCase().includes(q)));
+  $('#rail').innerHTML=list.length?list.map(c=>`<article class="car"><div class="ph"><img src="img/${c.img}" alt="${c.name} from the ID Car Rentals fleet" loading="lazy"><span class="badge">${c.badge}</span></div>
+    <h3>${c.name}</h3><p class="meta">${c.meta}</p><div class="row"><span class="rate">Ask for today's rate</span><button class="add" type="button" data-id="${c.id}" aria-pressed="${picked.has(c.id)}">${picked.has(c.id)?'Added ✓':'Book'}</button></div></article>`).join(''):'<p class="empty">No car matches that search. Try “SUV” or “Toyota”.</p>';
+  $('#shown').textContent=list.length+' of '+CARS.length+' cars';
+  $$('.add').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.id; picked.has(id)?picked.delete(id):picked.add(id); rail(); update(); if(picked.has(id)) open();}));
+}
+function days(){const a=new Date($('#from').value),b=new Date($('#to').value);const d=Math.round((b-a)/864e5);return isFinite(d)&&d>0?d:0;}
+function update(){
+  const cars=CARS.filter(c=>picked.has(c.id));
+  $('#count').hidden=!cars.length; $('#count').textContent=cars.length;
+  $('#none').hidden=!!cars.length;
+  $('#picked').innerHTML=cars.map(c=>`<li><img src="img/${c.img}" alt=""><span><b>${c.name}</b><br><small style="color:var(--soft)">${c.badge}</small></span><button type="button" data-rm="${c.id}">Remove</button></li>`).join('');
+  $$('[data-rm]').forEach(b=>b.addEventListener('click',()=>{picked.delete(b.dataset.rm);rail();update();}));
+  const drv=$('#driver button[aria-pressed="true"]').textContent, d=days(), nm=$('#nm').value.trim();
+  const fmt=v=>v?new Date(v+'T12:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'}):'?';
+  $('#sum').textContent=(cars.length?cars.length+' car'+(cars.length>1?'s':''):'Any suitable car')+' · '+(d?d+' day'+(d>1?'s':''):'dates not set')+' · '+drv.toLowerCase()+' · '+$('#where').value;
+  let msg=`Hello ID Car Rentals, I'd like to book.\nCar: ${cars.length?cars.map(c=>c.name).join(', '):'please suggest one'}\nPickup: ${fmt($('#from').value)}\nReturn: ${fmt($('#to').value)}${d?` (${d} day${d>1?'s':''})`:''}\nMeet me at: ${$('#where').value}\n${drv}`;
+  if(nm) msg+=`\nName: ${nm}`;
+  $('#send').href='https://wa.me/233243220727?text='+encodeURIComponent(msg);
+}
+function open(){$('#drawer').hidden=false;$('#scrim').hidden=false;$('#closeCart').focus();}
+function close(){$('#drawer').hidden=true;$('#scrim').hidden=true;$('#openCart').focus();}
+$('#openCart').addEventListener('click',open); $('#closeCart').addEventListener('click',close); $('#scrim').addEventListener('click',close);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#drawer').hidden)close();});
+$('#bannerBook').addEventListener('click',()=>{$('#where').value='Kotoka Airport (arrivals)';update();open();});
+$$('#topfilter button').forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.f;$$('#topfilter button').forEach(x=>x.setAttribute('aria-pressed',x===b));rail();$('#fleet').scrollIntoView({behavior:'smooth'});}));
+$('#q').addEventListener('input',rail);
+['from','to','where','nm'].forEach(id=>$('#'+id).addEventListener('input',update));
+$$('#driver button').forEach(b=>b.addEventListener('click',()=>{$$('#driver button').forEach(x=>x.setAttribute('aria-pressed',x===b));update();}));
+const t=new Date(); const iso=d=>d.toISOString().slice(0,10); $('#from').value=iso(new Date(t.getTime()+864e5)); $('#to').value=iso(new Date(t.getTime()+4*864e5)); $('#from').min=iso(t);
+rail(); update();
+})();
+</script>
+
+</body>
+</html>
